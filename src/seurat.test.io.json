@@ -1,0 +1,1 @@
+{"input": ["s3://hubtenants/test/singlecell_rnaseq/run_test1/cellranger/filtered_gene_bc_matrices/hg19/"], "output": ["s3://hubtenants/test/singlecell_rnaseq/run_test1/seurat/"], "alternate_inputs": [], "alternate_outputs": [], "program_arguments": "", "sample_id": "seurat_test"}
