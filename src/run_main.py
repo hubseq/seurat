@@ -24,8 +24,14 @@ def runOtherPre( input_dir, output_dir, run_json ):
     """
     pargs = run_json['program_arguments']
     pargs_list = pargs.split(' ')
-    pargs_list = ['Rscript','/run_program.R'] + pargs_list[1:]
     pargs_list += ['-s', run_json['run_arguments']['sample_id']]
+    if '-dim' in pargs_list:
+        dim_index = pargs_list.index('-dim')
+        pargs_list = ['Rscript', '/run_program_dim.R', pargs_list[0:dim_index] + pargs_list[dim_index+2:] + ['-dim', pargs_list[dim_index+1]]
+    elif '-qconly' in pargs_list:
+        pargs_list = ['Rscript','/run_program_qc.R'] + pargs_list[2:]
+    else:
+        pargs_list = ['Rscript','/run_program.R'] + pargs_list[1:]    
     run_json['program_arguments'] = ' '.join(pargs_list)
     print('PRE LIST DIRS CWD: {}'.format(str(os.listdir(os.getcwd()))))
     print('PRE LIST DIRS ROOT: {}'.format(str(os.listdir('/'))))
@@ -43,9 +49,10 @@ def runOtherPost( input_dir, output_dir, run_json ):
     image_list.append(['singlecell_qc1.jpg', 'image', 'Single Cell QC - Counts'])
     image_list.append(['singlecell_mean_vs_variance.jpg', 'image', 'QC - Mean vs Variance'])
     image_list.append(['singlecell_pca_dim_heatmap.jpg', 'image', 'QC - PCA Heatmap of Dimensions'])
-    image_list.append(['singlecell_elbowplot.jpg', 'image', 'QC - Elbow Plot to determine optimal Dimensions'])
-    image_list.append(['singlecell_umap.jpg', 'image', 'Clustering Plot'])
-    image_list.append(['singlecell_cluster_heatmap.jpg', 'image', 'Cluster Gene Expression Heatmap'])
+    image_list.append(['singlecell_elbowplot.jpg', 'image', 'QC - Elbow Plot to determine optimal Dimensions'])    
+    if '-qconly' not in run_json['program_arguments']:
+        image_list.append(['singlecell_umap.jpg', 'image', 'Clustering Plot'])        
+        image_list.append(['singlecell_cluster_heatmap.jpg', 'image', 'Cluster Gene Expression Heatmap'])
     html_utils.plots_to_html( image_list, 'singlecell_plots_seurat.html' )
     return run_json
 
