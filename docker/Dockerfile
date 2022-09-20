@@ -23,6 +23,8 @@ WORKDIR /
 RUN mkdir -p global_utils/src
 COPY src/run_main.py /
 COPY src/run_program.R /
+COPY src/run_program_qc.R /
+COPY src/run_program_dim.R /
 COPY src/global_utils/src/module_utils.py /global_utils/src/
 COPY src/global_utils/src/file_utils.py /global_utils/src/
 COPY src/global_utils/src/global_keys.py /global_utils/src/

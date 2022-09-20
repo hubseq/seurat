@@ -27,9 +27,9 @@ def runOtherPre( input_dir, output_dir, run_json ):
     pargs_list += ['-s', run_json['run_arguments']['sample_id']]
     if '-dim' in pargs_list:
         dim_index = pargs_list.index('-dim')
-        pargs_list = ['Rscript', '/run_program_dim.R', pargs_list[0:dim_index] + pargs_list[dim_index+2:] + ['-dim', pargs_list[dim_index+1]]
+        pargs_list = ['Rscript', '/run_program_dim.R'] + pargs_list[1:dim_index] + pargs_list[dim_index+2:] + ['-dim', pargs_list[dim_index+1]]
     elif '-qconly' in pargs_list:
-        pargs_list = ['Rscript','/run_program_qc.R'] + pargs_list[2:]
+        pargs_list = ['Rscript','/run_program_qc.R'] + pargs_list[2:] + ['-qconly']
     else:
         pargs_list = ['Rscript','/run_program.R'] + pargs_list[1:]    
     run_json['program_arguments'] = ' '.join(pargs_list)

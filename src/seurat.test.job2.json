@@ -1,0 +1,1 @@
+{"container_overrides": {"command": ["--module_name", "seurat", "--run_arguments", "s3://hubseq-data/modules/seurat/io/seurat.test.io2.json", "--working_dir", "/home/"]}, "jobqueue": "batch_scratch_queue", "jobname": "job_seurat_test"}
